@@ -90,6 +90,7 @@ module wd_crail_full(shelf_width) {
 
 	// Height of the pole if it were standing up
 	rail_height = wd_length() - wd_batten_large_width() * 2;
+	echo(str("clothes rail, cut ", rail_height, "mm"));
 
 	// Positioned half way under shelf_width and suspended z mm
 	rail_x = shelf_width / 2;
@@ -113,11 +114,13 @@ module wd_crail_full(shelf_width) {
 
 // Batten on the rear wall
 module wd_batten_rear_large(length=wd_length()) {
+	echo(str("batten rear, cut to ", length, "mm"));
 	translate([0, 0, 0-wd_batten_large_length()])
 	    cube([wd_batten_large_width(), length, wd_batten_large_length()]);
 }
 
 module wd_batten_side_large() {
+	echo(str("batten side, cut to ", wd_width(), "mm"));
 	batten_rear_width = wd_batten_large_width();
 	length = wd_batten_large_width();
 	width = wd_width() - wd_batten_large_width();
@@ -128,6 +131,7 @@ module wd_batten_side_large() {
 
 // Create a full sized shelf
 module wd_shelf_full(rail=false) {
+	echo(str("shelf full width, cut to ", wd_length(), "mm"));
 	// Battens
 	wd_batten_rear_large();
 	wd_batten_side_large();
@@ -145,6 +149,7 @@ module wd_shelf_full(rail=false) {
 // Wardrobe divider wall
 // Set cutout to true to cut out rail, batten, skirting holes
 module wd_div_wall(height, cutout=false) {
+	echo(str("divider wall, cut to ", height, "mm"));
 	if (cutout) {
 		difference() {
 			cube([wd_shelf_width(), wd_shelf_height(), height]);
@@ -177,12 +182,14 @@ function wd_shelf_left_length_default() =
 	wd_length() / 2 - wd_shelf_height() / 2;
 
 module wd_shelf_left(length=wd_shelf_left_length_default()) {
+	echo(str("shelf, cut to ", length, "mm"));
 	wd_batten_side_large();
 	wd_batten_rear_large(length / 2);
 	cube([wd_shelf_width(), length, wd_shelf_height()]);
 }
 
 module wd_shelf_right(length=wd_shelf_left_length_default()) {
+	// don't echo, wd_shelf_left does this for us
 	translate([0, wd_length(), 0])
 	mirror([0, 1, 0])
 		wd_shelf_left(length);
