@@ -11,6 +11,11 @@ function wd_length() = 1733; // Y
 function wd_width() = 0819; // X
 function wd_height() = 2398; // Z
 
+// Wardrobe colour
+function wd_colour() = "white";
+function wd_rail_colour() = "silver";
+function wd_batten_colour() = "white";
+
 // Skirting dimensions
 function wd_skirting_width() = 16;
 function wd_skirting_height() = 145;
@@ -74,6 +79,7 @@ module _crail_support(shelf_width, y) {
 	w = 20;
 	l = 10;
 	translate([shelf_width / 2 - w, y, 0 - h])
+		color(wd_rail_colour())
 		cube([w, l, h]);
 }
 
@@ -98,6 +104,7 @@ module wd_crail_full(shelf_width) {
 	// rail
 	translate([rail_x, wd_batten_large_width(), wd_rail_z()])
 		rotate(-90, [1, 0, 0])
+		color(wd_rail_colour())
 		cylinder(rail_height, wd_rail_radius(), wd_rail_radius());
 	
 	// supports
@@ -107,6 +114,7 @@ module wd_crail_full(shelf_width) {
 	for (i = rail_end_y) {
 		translate([rail_x, i, wd_rail_z()])
 			rotate(-90, [1, 0, 0])
+			color(wd_rail_colour())
 			cylinder(rail_end_height, rail_end_radius,
 				rail_end_radius);
 	}
@@ -116,7 +124,8 @@ module wd_crail_full(shelf_width) {
 module wd_batten_rear_large(length=wd_length()) {
 	echo(str("batten rear, cut to ", length, "mm"));
 	translate([0, 0, 0-wd_batten_large_length()])
-	    cube([wd_batten_large_width(), length, wd_batten_large_length()]);
+		color(wd_batten_colour())
+		cube([wd_batten_large_width(), length, wd_batten_large_length()]);
 }
 
 module wd_batten_side_large() {
@@ -126,6 +135,7 @@ module wd_batten_side_large() {
 	width = wd_width() - wd_batten_large_width();
 	height = wd_batten_large_length();
 	translate([batten_rear_width, 0, 0-wd_batten_large_length()])
+		color(wd_batten_colour())
 		cube([width, length, height]);
 }
 
@@ -139,7 +149,8 @@ module wd_shelf_full(rail=false) {
 		wd_batten_side_large();
 
 	// Shelf
-	cube([wd_shelf_width(), wd_length(), wd_shelf_height()]);
+	color(wd_colour())
+		cube([wd_shelf_width(), wd_length(), wd_shelf_height()]);
 
 	if (rail) {
 		wd_crail_full(wd_shelf_width());
@@ -152,7 +163,8 @@ module wd_div_wall(height, cutout=false) {
 	echo(str("divider wall, cut to ", height, "mm"));
 	if (cutout) {
 		difference() {
-			cube([wd_shelf_width(), wd_shelf_height(), height]);
+			color(wd_colour())
+				cube([wd_shelf_width(), wd_shelf_height(), height]);
 			// Cutout for rail
 			// Note: When you build this, drill a nice hole
 			c_rail_x = wd_shelf_width() / 2 - wd_rail_radius();
@@ -185,7 +197,8 @@ module wd_shelf_left(length=wd_shelf_left_length_default()) {
 	echo(str("shelf, cut to ", length, "mm"));
 	wd_batten_side_large();
 	wd_batten_rear_large(length / 2);
-	cube([wd_shelf_width(), length, wd_shelf_height()]);
+	color(wd_colour())
+		cube([wd_shelf_width(), length, wd_shelf_height()]);
 }
 
 module wd_shelf_right(length=wd_shelf_left_length_default()) {
