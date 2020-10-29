@@ -1,5 +1,8 @@
 // Half full-height, half half-height.
-use <lib/wardrobe.scad>
+include <lib/wall.scad>;
+include <lib/batten.scad>;
+include <lib/shelf.scad>;
+include <lib/wardrobe.scad>;
 
 function shelf_top_z() = 1800;
 function div_wall_y() = wd_length() / 2 - wd_shelf_height() / 2;
