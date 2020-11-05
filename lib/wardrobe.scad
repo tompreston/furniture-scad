@@ -26,8 +26,8 @@ function wd_shelf_height() = 18;
 function wd_shelf_width() = 500;
 
 // Clothes rail dimensions
-function wd_rail_radius() = 10;
-function wd_rail_z() = -40;
+function wd_rail_radius() = 15;
+function wd_rail_z() = -60;
 
 module wd_skirting_rear() {
 	cube([wd_skirting_width(), wd_length(), wd_skirting_height()]);
@@ -61,15 +61,6 @@ module wd_walls() {
 		wd_skirting_side();
 }
 
-module _crail_support(shelf_width, y) {
-	h = 50;
-	w = 20;
-	l = 10;
-	translate([shelf_width / 2 - w, y, 0 - h])
-		color(wd_rail_colour())
-		cube([w, l, h]);
-}
-
 // Clothes rail full length, underneath shelf_height, centred on shelf_width.
 module wd_crail_full(shelf_width) {
 	// rail ends screw into the battens
@@ -77,9 +68,6 @@ module wd_crail_full(shelf_width) {
 	rail_end_height = 10;
 	rail_end_y = [batten_large_width(),
 		wd_length()-batten_large_width()-rail_end_height];
-
-	// rail supports suspend from the shelf
-	rail_supports_y = [433, 1299];
 
 	// Height of the pole if it were standing up
 	rail_height = wd_length() - batten_large_width() * 2;
@@ -95,9 +83,6 @@ module wd_crail_full(shelf_width) {
 		cylinder(rail_height, wd_rail_radius(), wd_rail_radius());
 	
 	// supports
-	for (i = rail_supports_y) {
-		_crail_support(shelf_width, i);
-	}
 	for (i = rail_end_y) {
 		translate([rail_x, i, wd_rail_z()])
 			rotate(-90, [1, 0, 0])
