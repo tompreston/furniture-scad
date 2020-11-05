@@ -152,7 +152,7 @@ function wd_shelf_left_length_default() =
 	wd_length() / 2 - wd_shelf_height() / 2;
 
 module wd_shelf_left(length=wd_shelf_left_length_default()) {
-	shelf_batten(length, rbatten=false);
+	shelf_batten(length, bl=batten_medium_length(), rbatten=false);
 }
 
 module wd_shelf_right(length=wd_shelf_left_length_default()) {
